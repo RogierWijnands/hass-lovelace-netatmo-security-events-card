@@ -1,11 +1,13 @@
 {
-  "files": ["src/main.ts"],
+  "files": [
+    "src/netatmo-security-events-card.ts"
+  ],
   "compilerOptions": {
     "removeComments": true,
-    "target": "es5",
-    "module": "system",
+    "target": "es2015",
     "moduleResolution": "node",
-    "lib": ["es2016", "dom"],
-    "experimentalDecorators": true
+    "lib": ["es2015", "dom"],
+    "experimentalDecorators": true,
+    "allowJs": true
   }
 }

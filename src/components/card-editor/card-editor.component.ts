@@ -1,23 +1,15 @@
 // Packages
-import {
-  customElement,
-  LitElement,
-  property,
-  TemplateResult,
-  html,
-} from 'lit-element';
+import { LitElement, TemplateResult, html } from 'lit';
+import { customElement, property, state } from 'lit-element';
 import { HomeAssistant } from 'custom-card-helpers';
-
-// Types
-import { WindowCardEditor } from '../../lib/types/editor-config.type';
 
 // Config
 import { CONFIG } from '../../lib/config/config';
 
 @customElement(CONFIG.editorType)
 export class CardEditorComponent extends LitElement {
-  @property() private config: Record<string, any>;
-  @property() private hass: HomeAssistant;
+  @property() public hass: HomeAssistant;
+  @state() private config: Record<string, any>;
 
   public setConfig(config: Record<string, any>): void {
     this.config = config;
@@ -27,15 +19,3 @@ export class CardEditorComponent extends LitElement {
     return html``;
   }
 }
-
-if (!customElements.get(CONFIG.editorType)) {
-  customElements.define(CONFIG.editorType, CardEditorComponent);
-  console.log(`${CONFIG.name} editor loaded!`);
-}
-(<WindowCardEditor>window).customCards =
-  (<WindowCardEditor>window).customCards || [];
-(<WindowCardEditor>window).customCards.push({
-  type: CONFIG.type,
-  name: CONFIG.name,
-  description: CONFIG.description,
-});
