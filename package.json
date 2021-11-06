@@ -1,0 +1,44 @@
+{
+  "name": "hass-lovelace-netatmo-security-events-card",
+  "version": "1.0.0",
+  "description": "A card layout for the Home Assistant theme Lovelace which renders the Netatmo Security event list, displaying event types and linking to the recorded video when available.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RogierWijnands/hass-lovelace-netatmo-security-events-card.git"
+  },
+  "keywords": [
+    "home",
+    "assistant",
+    "lovelace",
+    "netatmo",
+    "security",
+    "hass",
+    "card",
+    "layout",
+    "events",
+    "feed"
+  ],
+  "author": "Rogier Wijnands",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RogierWijnands/hass-lovelace-netatmo-security-events-card/issues"
+  },
+  "homepage": "https://github.com/RogierWijnands/hass-lovelace-netatmo-security-events-card#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-minify": "^3.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "custom-card-helpers": "^1.8.0",
+    "lit-element": "^3.0.1",
+    "systemjs": "^6.11.0"
+  }
+}

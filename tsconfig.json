@@ -1,0 +1,11 @@
+{
+  "files": ["src/main.ts"],
+  "compilerOptions": {
+    "removeComments": true,
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "lib": ["es2016", "dom"],
+    "experimentalDecorators": true
+  }
+}
