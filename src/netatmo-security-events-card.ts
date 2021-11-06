@@ -45,8 +45,4 @@ class NetatmoSecurityEventsCard extends LitElement {
   protected render(): TemplateResult {
     return new EventListComponent().render();
   }
-
-  public getCardSize(): number {
-    return 3;
-  }
 }
