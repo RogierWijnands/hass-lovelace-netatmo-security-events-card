@@ -1,7 +1,7 @@
-export function toURL(url: string, params: Record<string, string>): string {
-  const parsedUrl = new URL(url);
+export function toSearchParams(params: Record<string, string>): string {
+  const searchParams = new URLSearchParams();
   for (const param in params) {
-    parsedUrl.searchParams.set(param, encodeURIComponent(params[param]));
+    searchParams.set(param, params[param]);
   }
-  return parsedUrl.toString();
+  return searchParams.toString();
 }

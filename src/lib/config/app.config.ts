@@ -18,7 +18,7 @@ export const APP_CONFIG: AppConfig = {
       url: '/oauth2/token',
       headers: {
         Host: 'api.netatmo.com',
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       scopes: [
         'read_camera',
