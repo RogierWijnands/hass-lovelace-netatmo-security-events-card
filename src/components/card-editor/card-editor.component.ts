@@ -1,10 +1,12 @@
 // Packages
 import { LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit-element';
-import { HomeAssistant } from 'custom-card-helpers';
+import { fireEvent, HomeAssistant } from 'custom-card-helpers';
 
 // Types
 import { CardEditorWindow } from '../../lib/types/editor-config.type';
+import { CardConfig } from '../../lib/types/card-config.type';
+import { EditorField } from '../../lib/types/editor-field.type';
 
 // Config
 import { APP_CONFIG } from '../../lib/config/app.config';
@@ -24,13 +26,24 @@ import { CardEditorComponentTemplate } from './card-editor.component.html';
 @customElement(APP_CONFIG.components.editor)
 export class CardEditorComponent extends LitElement {
   @property() public hass: HomeAssistant;
-  @state() private config: Record<string, any>;
+  @state() private config: CardConfig;
 
-  public setConfig(config: Record<string, any>): void {
+  public setConfig(config: CardConfig): void {
     this.config = config;
   }
 
   protected render(): TemplateResult {
-    return CardEditorComponentTemplate();
+    return CardEditorComponentTemplate(
+      this.config,
+      this.onValueChanged.bind(this)
+    );
+  }
+
+  private onValueChanged(changedEl: EditorField): void {
+    this.config = {
+      ...this.config,
+      [changedEl.target.configValue]: changedEl.target.value,
+    };
+    fireEvent(this, 'config-changed', { config: this.config });
   }
 }

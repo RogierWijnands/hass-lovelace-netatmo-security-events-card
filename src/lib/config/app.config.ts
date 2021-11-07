@@ -1,5 +1,5 @@
 // Types
-import { AppConfig } from '../types/config.type';
+import { AppConfig } from '../types/app-config.type';
 
 export const APP_CONFIG: AppConfig = {
   type: 'netatmo-security-events-card',
