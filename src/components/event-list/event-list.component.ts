@@ -19,7 +19,9 @@ export class EventListComponent extends LitElement {
   @property() public config: CardConfig;
 
   public render(): TemplateResult {
-    new AuthService(this.config).authenticate().then((data) => {});
+    new AuthService(this.config).authenticate().then((data) => {
+      console.log(data);
+    });
     return EventListComponentTemplate(this.config);
   }
 }
