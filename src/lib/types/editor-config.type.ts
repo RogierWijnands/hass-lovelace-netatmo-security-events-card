@@ -5,6 +5,6 @@ export type EditorConfig = {
   preview?: boolean;
 };
 
-export type WindowCardEditor = typeof window & {
+export type CardEditorWindow = typeof window & {
   customCards: EditorConfig[];
 };
