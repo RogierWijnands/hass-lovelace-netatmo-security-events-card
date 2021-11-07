@@ -5,9 +5,5 @@ import { html, TemplateResult } from 'lit';
 import { CardConfig } from '../../lib/types/card-config.type';
 
 export function EventListComponentTemplate(config: CardConfig): TemplateResult {
-  return html`
-    <ha-card .header=${config.name}>
-      <div class="card-content"></div>
-    </ha-card>
-  `;
+  return html` Events list ${JSON.stringify(config)}`;
 }

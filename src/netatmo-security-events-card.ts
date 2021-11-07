@@ -10,11 +10,14 @@ import { CardConfig } from './lib/types/card-config.type';
 import { APP_CONFIG } from './lib/config/app.config';
 
 // Components
-import { EventListComponent } from './components/event-list/event-list.component';
 import { CardEditorComponent } from './components/card-editor/card-editor.component';
+
+// Template
+import { NetatmoSecurityEventsCardTemplate } from './netatmo-security-events-card.html';
 
 // Rollup
 import './components/card-editor/card-editor.component';
+import './components/event-list/event-list.component';
 
 @customElement(APP_CONFIG.components.card)
 class NetatmoSecurityEventsCard extends LitElement {
@@ -36,6 +39,6 @@ class NetatmoSecurityEventsCard extends LitElement {
   }
 
   protected render(): TemplateResult {
-    return new EventListComponent(this.config).render();
+    return NetatmoSecurityEventsCardTemplate(this.config);
   }
 }

@@ -10,5 +10,6 @@ export const APP_CONFIG: AppConfig = {
   components: {
     card: 'netatmo-security-events-card',
     editor: 'netatmo-security-events-card-editor',
+    eventList: 'netatmo-security-events-list',
   },
 };
