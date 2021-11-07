@@ -13,7 +13,7 @@ export type AppConfig = EditorConfig & {
   api: {
     baseUrl: string;
     auth: APIConfig;
-    events: APIConfig;
+    homeData: APIConfig;
   };
   storage: {
     key: string;

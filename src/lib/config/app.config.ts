@@ -27,8 +27,8 @@ export const APP_CONFIG: AppConfig = {
         'access_presence',
       ],
     },
-    events: {
-      url: '/gethomedata',
+    homeData: {
+      url: '/api/gethomedata',
     },
   },
   storage: {
