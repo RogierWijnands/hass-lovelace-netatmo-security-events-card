@@ -16,11 +16,21 @@ import { EventListComponentTemplate } from './event-list.component.html';
 // Services
 import { HomeDataService } from '../../lib/services/home-data.service';
 
+// Enum
+import { NetatmoEventType } from '../../lib/enum/event-type.enum';
+
 @customElement(APP_CONFIG.components.eventList)
 export class EventListComponent extends LitElement {
   private homeDataService: HomeDataService;
   private homeData: NetatmoHomeData;
   private eventList: NetatmoEvent[];
+  private eventIconMap: Map<NetatmoEventType, string> = new Map([
+    [NetatmoEventType.ANIMAL, 'paw'],
+    [NetatmoEventType.VEHICLE, 'car'],
+    [NetatmoEventType.MOVEMENT, 'clock-fast'],
+    [NetatmoEventType.HUMAN, 'walk'],
+    [NetatmoEventType.PERSON, 'walk'],
+  ]);
   private _config: CardConfig;
 
   set config(config: CardConfig) {
@@ -46,11 +56,12 @@ export class EventListComponent extends LitElement {
       .then((homeData: NetatmoHomeData) => {
         this.homeData = homeData;
         this.eventList = EventListComponent.parseEventList(this.homeData);
-        console.log('Events: ', this.eventList);
-        console.log('Home data: ', this.homeData);
+        this.render();
       })
       .catch(() => {
         this.homeData = undefined;
+        this.eventList = undefined;
+        this.render();
       });
   }
 
@@ -91,6 +102,10 @@ export class EventListComponent extends LitElement {
   }
 
   public render(): TemplateResult {
-    return EventListComponentTemplate(this.config);
+    return EventListComponentTemplate(
+      this.config,
+      this.eventIconMap,
+      this.eventList
+    );
   }
 }

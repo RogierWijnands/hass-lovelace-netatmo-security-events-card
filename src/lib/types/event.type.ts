@@ -1,6 +1,9 @@
+// Enum
+import { NetatmoEventType } from '../enum/event-type.enum';
+
 export type NetatmoEvent = {
   id: string;
-  type: string;
+  type: NetatmoEventType;
   time: number;
   camera_id?: string;
   device_id?: string;
