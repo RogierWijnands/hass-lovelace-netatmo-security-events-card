@@ -2,7 +2,7 @@
 import { NetatmoEvent } from './event.type';
 import { NetatmoCamera } from './camera.type';
 
-export type HomeData = {
+export type NetatmoHome = {
   id: string;
   name: string;
   place: {
@@ -30,4 +30,17 @@ export type HomeData = {
     name: string;
   }[];
   events: NetatmoEvent[];
+};
+
+export type NetatmoHomeData = {
+  homes: NetatmoHome[];
+  global_info: {
+    show_tags: boolean;
+  };
+  user: {
+    country: string;
+    lang: string;
+    mail: string;
+    reg_locale: string;
+  };
 };

@@ -3,7 +3,7 @@ import { APP_CONFIG } from '../config/app.config';
 
 // Types
 import { CardConfig } from '../types/card-config.type';
-import { HomeData } from '../types/home-data.type';
+import { NetatmoHomeData } from '../types/home-data.type';
 import { APIResponse } from '../types/api-response.type';
 
 // Services
@@ -19,7 +19,7 @@ export class HomeDataService {
     this.authService = new AuthService(this.config);
   }
 
-  public fetchData(): Promise<HomeData | undefined> {
+  public fetchData(): Promise<NetatmoHomeData | undefined> {
     return new Promise((resolve) => {
       this.authService.authenticate().then((authenticated: boolean) => {
         if (authenticated) {
@@ -30,9 +30,11 @@ export class HomeDataService {
             },
           })
             .then((response: Response) => {
-              response.json().then((parsedResponse: APIResponse<HomeData>) => {
-                return resolve(parsedResponse.body);
-              });
+              response
+                .json()
+                .then((parsedResponse: APIResponse<NetatmoHomeData>) => {
+                  return resolve(parsedResponse.body);
+                });
             })
             .catch(() => {
               return resolve(undefined);
