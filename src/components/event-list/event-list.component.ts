@@ -27,9 +27,12 @@ export class EventListComponent extends LitElement {
   private eventIconMap: Map<NetatmoEventType, string> = new Map([
     [NetatmoEventType.ANIMAL, 'paw'],
     [NetatmoEventType.VEHICLE, 'car'],
-    [NetatmoEventType.MOVEMENT, 'clock-fast'],
+    [NetatmoEventType.MOVEMENT, 'rss'],
     [NetatmoEventType.HUMAN, 'walk'],
     [NetatmoEventType.PERSON, 'walk'],
+    [NetatmoEventType.TAG_BIG_MOVE, 'motion-sensor'],
+    [NetatmoEventType.TAG_SMALL_MOVE, 'motion-sensor'],
+    [NetatmoEventType.BOOT, 'power'],
   ]);
   private _config: CardConfig;
 
@@ -56,12 +59,12 @@ export class EventListComponent extends LitElement {
       .then((homeData: NetatmoHomeData) => {
         this.homeData = homeData;
         this.eventList = EventListComponent.parseEventList(this.homeData);
-        this.render();
+        this.requestUpdate();
       })
       .catch(() => {
         this.homeData = undefined;
         this.eventList = undefined;
-        this.render();
+        this.requestUpdate();
       });
   }
 

@@ -8,6 +8,9 @@ import { NetatmoEvent } from '../../lib/types/event.type';
 // Enum
 import { NetatmoEventType } from '../../lib/enum/event-type.enum';
 
+// Helpers
+import { parseStringAsHTML } from '../../lib/helpers/parse-string-as-html.helper';
+
 export function EventListComponentTemplate(
   config: CardConfig,
   eventIconMap: Map<NetatmoEventType, string>,
@@ -15,7 +18,7 @@ export function EventListComponentTemplate(
 ): TemplateResult {
   return eventList
     ? html`${eventList.map((netatmoEvent: NetatmoEvent) => {
-        html`<div class="entity-row">
+        return html`<div class="entity-row">
           <div class="icon">
             <ha-icon
               .icon=${`mdi:${
@@ -24,7 +27,7 @@ export function EventListComponentTemplate(
             ></ha-icon>
           </div>
           <div class="name">
-            ${netatmoEvent.message}
+            ${parseStringAsHTML(netatmoEvent.message)}
             <div class="secondary">${netatmoEvent.time}</div>
           </div>
         </div>`;
