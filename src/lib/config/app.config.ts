@@ -1,6 +1,9 @@
 // Types
 import { AppConfig } from '../types/app-config.type';
 
+// Enum
+import { HTTPMethod } from '../enum/http-method.enum';
+
 export const APP_CONFIG: AppConfig = {
   type: 'netatmo-security-events-card',
   editorType: 'netatmo-security-events-card-editor',
@@ -16,6 +19,7 @@ export const APP_CONFIG: AppConfig = {
     baseUrl: 'https://api.netatmo.com',
     auth: {
       url: '/oauth2/token',
+      method: HTTPMethod.POST,
       headers: {
         Host: 'api.netatmo.com',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -29,6 +33,7 @@ export const APP_CONFIG: AppConfig = {
     },
     homeData: {
       url: '/api/gethomedata',
+      method: HTTPMethod.GET,
     },
   },
   storage: {

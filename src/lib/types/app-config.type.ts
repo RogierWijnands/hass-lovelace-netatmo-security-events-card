@@ -1,8 +1,12 @@
 // Types
 import { EditorConfig } from './editor-config.type';
 
+// Enum
+import { HTTPMethod } from '../enum/http-method.enum';
+
 type APIConfig = {
   url: string;
+  method: HTTPMethod;
   headers?: Record<string, string>;
   scopes?: string[];
 };

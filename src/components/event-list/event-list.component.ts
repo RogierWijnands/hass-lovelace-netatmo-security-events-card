@@ -18,15 +18,20 @@ import { HomeDataService } from '../../lib/services/home-data.service';
 @customElement(APP_CONFIG.components.eventList)
 export class EventListComponent extends LitElement {
   private homeDataService: HomeDataService;
+  private homeData: HomeData;
   private _config: CardConfig;
 
   set config(config: CardConfig) {
     this.requestUpdate('config', this._config);
+    const configChanged =
+      JSON.stringify(config) !== JSON.stringify(this._config);
     this._config = config;
-    if (!(this.homeDataService instanceof HomeDataService)) {
-      this.homeDataService = new HomeDataService(this._config);
-      this.fetchData();
+    if (configChanged) {
+      this.homeDataService = this._config
+        ? new HomeDataService(this._config)
+        : undefined;
     }
+    this.fetchData();
   }
 
   get config(): CardConfig {
@@ -34,9 +39,15 @@ export class EventListComponent extends LitElement {
   }
 
   private fetchData(): void {
-    this.homeDataService.fetchData().then((homeData: HomeData) => {
-      console.log(homeData);
-    });
+    this.homeDataService
+      .fetchData()
+      .then((homeData: HomeData) => {
+        this.homeData = homeData;
+        console.log(this.homeData);
+      })
+      .catch(() => {
+        this.homeData = undefined;
+      });
   }
 
   public render(): TemplateResult {

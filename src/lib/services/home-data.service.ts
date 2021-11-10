@@ -4,6 +4,7 @@ import { APP_CONFIG } from '../config/app.config';
 // Types
 import { CardConfig } from '../types/card-config.type';
 import { HomeData } from '../types/home-data.type';
+import { APIResponse } from '../types/api-response.type';
 
 // Services
 import { AuthService } from './auth.service';
@@ -18,7 +19,7 @@ export class HomeDataService {
     this.authService = new AuthService(this.config);
   }
 
-  public fetchData(): Promise<HomeData> {
+  public fetchData(): Promise<HomeData | undefined> {
     return new Promise((resolve) => {
       this.authService.authenticate().then((authenticated: boolean) => {
         if (authenticated) {
@@ -27,9 +28,17 @@ export class HomeDataService {
             headers: {
               Authorization: `Bearer ${getStorageData()?.auth?.access_token}`,
             },
-          }).then((homeData) => {
-            return resolve(homeData.json());
-          });
+          })
+            .then((response: Response) => {
+              response.json().then((parsedResponse: APIResponse<HomeData>) => {
+                return resolve(parsedResponse.body);
+              });
+            })
+            .catch(() => {
+              return resolve(undefined);
+            });
+        } else {
+          return resolve(undefined);
         }
       });
     });

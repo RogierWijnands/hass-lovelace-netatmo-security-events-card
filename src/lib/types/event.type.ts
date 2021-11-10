@@ -19,4 +19,5 @@ export type NetatmoEvent = {
   video_id?: string;
   video_status?: string;
   message: string;
+  event_list?: NetatmoEvent[];
 };

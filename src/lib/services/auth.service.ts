@@ -86,7 +86,7 @@ export class AuthService {
           scope: APP_CONFIG.api.auth.scopes.join(' '),
         }),
       })
-        .then((authData) => resolve(authData.json() || undefined))
+        .then((authData: Response) => resolve(authData.json()))
         .catch(() => resolve(undefined));
     });
   }
@@ -111,7 +111,7 @@ export class AuthService {
           client_secret: this.config.client_secret,
         }),
       })
-        .then((authData) => resolve(authData.json() || undefined))
+        .then((authData: Response) => resolve(authData.json()))
         .catch(() => resolve(undefined));
     });
   }
