@@ -112,10 +112,10 @@ export class EventListComponent extends LitElement {
     );
   }
 
-  public get styles(): CSSResult {
+  static get styles(): CSSResult {
     return css`
       .netatmo-security-event {
-        width: 100%:
+        width: 100%;
         display: inline-block;
       }
       .netatmo-security-event:not(:last-of-type) {
@@ -125,7 +125,7 @@ export class EventListComponent extends LitElement {
         padding-right: 40px;
       }
       .netatmo-security-event__content {
-        width: calc(100% - 40px); 
+        width: calc(100% - 40px);
         float: right;
       }
       .netatmo-security-event__content--secondary {
