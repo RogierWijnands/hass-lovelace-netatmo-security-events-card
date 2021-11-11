@@ -1,6 +1,6 @@
 // Packages
 import { LitElement, TemplateResult } from 'lit';
-import { customElement } from 'lit-element';
+import { css, CSSResult, customElement } from 'lit-element';
 
 // Config
 import { APP_CONFIG } from '../../lib/config/app.config';
@@ -110,5 +110,27 @@ export class EventListComponent extends LitElement {
       this.eventIconMap,
       this.eventList
     );
+  }
+
+  public get styles(): CSSResult {
+    return css`
+      .netatmo-security-event {
+        width: 100%:
+        display: inline-block;
+      }
+      .netatmo-security-event:not(:last-of-type) {
+        margin-bottom: 10px;
+      }
+      .netatmo-security-event__icon {
+        padding-right: 40px;
+      }
+      .netatmo-security-event__content {
+        width: calc(100% - 40px); 
+        float: right;
+      }
+      .netatmo-security-event__content--secondary {
+        opacity: 0.5;
+      }
+    `;
   }
 }

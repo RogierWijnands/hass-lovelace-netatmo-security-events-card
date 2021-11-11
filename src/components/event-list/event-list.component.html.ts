@@ -9,7 +9,8 @@ import { NetatmoEvent } from '../../lib/types/event.type';
 import { NetatmoEventType } from '../../lib/enum/event-type.enum';
 
 // Helpers
-import { parseStringAsHTML } from '../../lib/helpers/parse-string-as-html.helper';
+import { outputToHTML } from '../../lib/helpers/output-to-html.helper';
+import { outputToDate } from '../../lib/helpers/output-to-date.helper';
 
 export function EventListComponentTemplate(
   config: CardConfig,
@@ -18,17 +19,18 @@ export function EventListComponentTemplate(
 ): TemplateResult {
   return eventList
     ? html`${eventList.map((netatmoEvent: NetatmoEvent) => {
-        return html`<div class="entity-row">
-          <div class="icon">
-            <ha-icon
-              .icon=${`mdi:${
-                eventIconMap.get(netatmoEvent.type) || 'clock-fast'
-              }`}
-            ></ha-icon>
-          </div>
-          <div class="name">
-            ${parseStringAsHTML(netatmoEvent.message)}
-            <div class="secondary">${netatmoEvent.time}</div>
+        return html`<div class="netatmo-security-event">
+          <state-badge
+            class="netatmo-security-event__icon"
+            .overrideIcon=${`mdi:${
+              eventIconMap.get(netatmoEvent.type) || 'clock-fast'
+            }`}
+          ></state-badge>
+          <div class="netatmo-security-event__content">
+            ${outputToHTML(netatmoEvent.message)}
+            <div class="netatmo-security-event__content--secondary">
+              ${outputToDate(netatmoEvent.time)}
+            </div>
           </div>
         </div>`;
       })}`
