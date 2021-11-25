@@ -4,6 +4,7 @@ import { css, CSSResult, customElement } from 'lit-element';
 
 // Config
 import { APP_CONFIG } from '../../lib/config/app.config';
+import { eventIconMap } from '../../lib/config/event-icons.config';
 
 // Types
 import { CardConfig } from '../../lib/types/card-config.type';
@@ -16,24 +17,11 @@ import { EventListComponentTemplate } from './event-list.component.html';
 // Services
 import { HomeDataService } from '../../lib/services/home-data.service';
 
-// Enum
-import { NetatmoEventType } from '../../lib/enum/event-type.enum';
-
 @customElement(APP_CONFIG.components.eventList)
 export class EventListComponent extends LitElement {
   private homeDataService: HomeDataService;
   private homeData: NetatmoHomeData;
   private eventList: NetatmoEvent[];
-  private eventIconMap: Map<NetatmoEventType, string> = new Map([
-    [NetatmoEventType.ANIMAL, 'paw'],
-    [NetatmoEventType.VEHICLE, 'car'],
-    [NetatmoEventType.MOVEMENT, 'rss'],
-    [NetatmoEventType.HUMAN, 'walk'],
-    [NetatmoEventType.PERSON, 'walk'],
-    [NetatmoEventType.TAG_BIG_MOVE, 'motion-sensor'],
-    [NetatmoEventType.TAG_SMALL_MOVE, 'motion-sensor'],
-    [NetatmoEventType.BOOT, 'power'],
-  ]);
   private _config: CardConfig;
 
   set config(config: CardConfig) {
@@ -107,7 +95,7 @@ export class EventListComponent extends LitElement {
   public render(): TemplateResult {
     return EventListComponentTemplate(
       this.config,
-      this.eventIconMap,
+      eventIconMap,
       this.eventList
     );
   }

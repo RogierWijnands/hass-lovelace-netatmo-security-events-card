@@ -32,7 +32,7 @@ export const APP_CONFIG: AppConfig = {
       ],
     },
     homeData: {
-      url: '/api/gethomedata',
+      url: '/api/homesdata',
       method: HTTPMethod.GET,
     },
   },
