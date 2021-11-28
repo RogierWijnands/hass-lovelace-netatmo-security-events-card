@@ -1,6 +1,6 @@
 // Packages
 import { LitElement, TemplateResult } from 'lit';
-import { css, CSSResult, customElement } from 'lit-element';
+import { CSSResult, customElement } from 'lit-element';
 
 // Config
 import { APP_CONFIG } from '../../lib/config/app.config';
@@ -10,12 +10,14 @@ import { eventIconMap } from '../../lib/config/event-icons.config';
 import { CardConfig } from '../../lib/types/card-config.type';
 import { NetatmoHome, NetatmoHomeData } from '../../lib/types/home-data.type';
 import { NetatmoEvent } from '../../lib/types/event.type';
+import { NetatmoCamera } from '../../lib/types/camera.type';
 
 // Template
-import { EventListComponentTemplate } from './event-list.component.html';
+import { EventListComponentHtml } from './event-list.component.html';
 
 // Services
 import { HomeDataService } from '../../lib/services/home-data.service';
+import { EventListComponentCss } from './event-list.component.css';
 
 @customElement(APP_CONFIG.components.eventList)
 export class EventListComponent extends LitElement {
@@ -69,7 +71,12 @@ export class EventListComponent extends LitElement {
                 ...home.events.reduce(
                   (homeEventList: NetatmoEvent[], homeEvent: NetatmoEvent) => {
                     if (Array.isArray(homeEvent.event_list)) {
-                      homeEventList.push(...homeEvent.event_list);
+                      homeEventList.push(
+                        ...homeEvent.event_list.map((eventListEvent) => ({
+                          ...homeEvent,
+                          ...eventListEvent,
+                        }))
+                      );
                     } else {
                       homeEventList.push(homeEvent);
                     }
@@ -92,33 +99,41 @@ export class EventListComponent extends LitElement {
     return parsedEventList;
   }
 
+  public onEventClick(netatmoEvent: NetatmoEvent): void {
+    if (!netatmoEvent.video_id || !netatmoEvent.camera_id || !this.homeData) {
+      return;
+    }
+
+    const eventCamera: NetatmoCamera = this.homeData.homes.reduce(
+      (_eventCamera: NetatmoCamera, home: NetatmoHome) => {
+        return home.cameras?.find(
+          (camera) => camera.id === netatmoEvent.camera_id
+        );
+      },
+      undefined
+    );
+
+    if (!eventCamera) {
+      return;
+    }
+
+    // TODO: Open video in dialog window inside HASS instance
+    const eventMediaWindow = window.open(undefined, '_system', 'location=yes');
+    eventMediaWindow.document.write(
+      `<video autoplay controls src="${eventCamera.vpn_url}/vod/${netatmoEvent.video_id}/index.m3u8"></video>`
+    );
+  }
+
   public render(): TemplateResult {
-    return EventListComponentTemplate(
+    return EventListComponentHtml(
       this.config,
+      this.onEventClick.bind(this),
       eventIconMap,
       this.eventList
     );
   }
 
   static get styles(): CSSResult {
-    return css`
-      .netatmo-security-event {
-        width: 100%;
-        display: inline-block;
-      }
-      .netatmo-security-event:not(:last-of-type) {
-        margin-bottom: 10px;
-      }
-      .netatmo-security-event__icon {
-        padding-right: 40px;
-      }
-      .netatmo-security-event__content {
-        width: calc(100% - 40px);
-        float: right;
-      }
-      .netatmo-security-event__content--secondary {
-        opacity: 0.5;
-      }
-    `;
+    return EventListComponentCss();
   }
 }

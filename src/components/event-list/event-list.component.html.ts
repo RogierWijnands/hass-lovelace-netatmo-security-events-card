@@ -12,14 +12,18 @@ import { NetatmoEventType } from '../../lib/enum/event-type.enum';
 import { outputToHTML } from '../../lib/helpers/output-to-html.helper';
 import { outputToDate } from '../../lib/helpers/output-to-date.helper';
 
-export function EventListComponentTemplate(
+export function EventListComponentHtml(
   config: CardConfig,
+  eventClickHandler: Function,
   eventIconMap: Map<NetatmoEventType, string>,
   eventList?: NetatmoEvent[]
 ): TemplateResult {
   return eventList
     ? html`${eventList.map((netatmoEvent: NetatmoEvent) => {
-        return html`<div class="netatmo-security-event">
+        return html`<div
+          class="netatmo-security-event"
+          @click="${() => eventClickHandler(netatmoEvent)}"
+        >
           <state-badge
             class="netatmo-security-event__icon"
             .overrideIcon=${`mdi:${
