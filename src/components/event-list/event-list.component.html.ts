@@ -16,7 +16,8 @@ export function EventListComponentHtml(
   config: CardConfig,
   eventClickHandler: Function,
   eventIconMap: Map<NetatmoEventType, string>,
-  eventList?: NetatmoEvent[]
+  eventList?: NetatmoEvent[],
+  eventMediaUrl?: string
 ): TemplateResult {
   return eventList
     ? html`${eventList.map((netatmoEvent: NetatmoEvent) => {
@@ -32,11 +33,22 @@ export function EventListComponentHtml(
           ></state-badge>
           <div class="netatmo-security-event__content">
             ${outputToHTML(netatmoEvent.message)}
-            <div class="netatmo-security-event__content--secondary">
+            <div class="netatmo-security-event__content-secondary">
               ${outputToDate(netatmoEvent.time)}
             </div>
           </div>
         </div>`;
-      })}`
+      })}${eventMediaUrl
+        ? html`<div
+              class="netatmo-security-event__dialog-bg"
+              @click="${() => eventClickHandler(undefined)}"
+            ></div>
+            <video
+              class="netatmo-security-event__dialog-video"
+              autoplay
+              controls
+              src="${eventMediaUrl}"
+            ></video>`
+        : void 0}`
     : html`No events found`;
 }

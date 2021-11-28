@@ -24,6 +24,7 @@ export class EventListComponent extends LitElement {
   private homeDataService: HomeDataService;
   private homeData: NetatmoHomeData;
   private eventList: NetatmoEvent[];
+  private eventMediaUrl: string;
   private _config: CardConfig;
 
   set config(config: CardConfig) {
@@ -100,28 +101,29 @@ export class EventListComponent extends LitElement {
   }
 
   public onEventClick(netatmoEvent: NetatmoEvent): void {
-    if (!netatmoEvent.video_id || !netatmoEvent.camera_id || !this.homeData) {
-      return;
+    this.eventMediaUrl = undefined;
+
+    if (netatmoEvent?.video_id && netatmoEvent.camera_id && this.homeData) {
+      const eventCamera: NetatmoCamera = this.homeData.homes.reduce(
+        (_eventCamera: NetatmoCamera, home: NetatmoHome) => {
+          return home.cameras?.find(
+            (camera) => camera.id === netatmoEvent.camera_id
+          );
+        },
+        undefined
+      );
+      if (eventCamera) {
+        this.eventMediaUrl = `${eventCamera.vpn_url}/vod/${netatmoEvent.video_id}/index.m3u8`;
+      }
     }
 
-    const eventCamera: NetatmoCamera = this.homeData.homes.reduce(
-      (_eventCamera: NetatmoCamera, home: NetatmoHome) => {
-        return home.cameras?.find(
-          (camera) => camera.id === netatmoEvent.camera_id
-        );
-      },
-      undefined
-    );
-
-    if (!eventCamera) {
-      return;
+    if (this.eventMediaUrl) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = 'unset';
     }
-
-    // TODO: Open video in dialog window inside HASS instance
-    const eventMediaWindow = window.open(undefined, '_system', 'location=yes');
-    eventMediaWindow.document.write(
-      `<video autoplay controls src="${eventCamera.vpn_url}/vod/${netatmoEvent.video_id}/index.m3u8"></video>`
-    );
+    this.requestUpdate();
   }
 
   public render(): TemplateResult {
@@ -129,7 +131,8 @@ export class EventListComponent extends LitElement {
       this.config,
       this.onEventClick.bind(this),
       eventIconMap,
-      this.eventList
+      this.eventList,
+      this.eventMediaUrl
     );
   }
 
