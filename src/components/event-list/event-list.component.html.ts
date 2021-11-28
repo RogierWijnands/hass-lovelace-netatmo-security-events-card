@@ -33,6 +33,11 @@ export function EventListComponentHtml(
           ></state-badge>
           <div class="netatmo-security-event__content">
             ${outputToHTML(netatmoEvent.message)}
+            ${netatmoEvent.video_id && netatmoEvent.camera_id
+              ? html`<span class="netatmo-security-event__play-icon"
+                  >&#9658;</span
+                >`
+              : void 0}
             <div class="netatmo-security-event__content-secondary">
               ${outputToDate(netatmoEvent.time)}
             </div>

@@ -38,5 +38,9 @@ export function EventListComponentCss(): CSSResult {
       max-width: 90vw;
       background-color: #ffffff;
     }
+    .netatmo-security-event__play-icon {
+      display: inline-block;
+      margin-left: 3px;
+    }
   `;
 }
