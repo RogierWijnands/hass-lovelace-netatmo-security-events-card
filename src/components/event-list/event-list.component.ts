@@ -25,6 +25,7 @@ export class EventListComponent extends LitElement {
   private homeData: NetatmoHomeData;
   private eventList: NetatmoEvent[];
   private eventMediaUrl: string;
+  private loading: boolean;
   private _config: CardConfig;
 
   set config(config: CardConfig) {
@@ -45,16 +46,20 @@ export class EventListComponent extends LitElement {
   }
 
   private fetchData(): void {
+    this.loading = true;
+    this.requestUpdate();
     this.homeDataService
       .fetchData()
       .then((homeData: NetatmoHomeData) => {
         this.homeData = homeData;
         this.eventList = EventListComponent.parseEventList(this.homeData);
+        this.loading = false;
         this.requestUpdate();
       })
       .catch(() => {
         this.homeData = undefined;
         this.eventList = undefined;
+        this.loading = false;
         this.requestUpdate();
       });
   }
@@ -128,11 +133,12 @@ export class EventListComponent extends LitElement {
 
   public render(): TemplateResult {
     return EventListComponentHtml(
-      this.config,
       this.onEventClick.bind(this),
       eventIconMap,
+      this.fetchData.bind(this),
       this.eventList,
-      this.eventMediaUrl
+      this.eventMediaUrl,
+      this.loading,
     );
   }
 
